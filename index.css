@@ -1,8 +1,10 @@
-.header {
+@import "tailwindcss";
+
+/* .header {
   display: flex;
   justify-content: space-between;
   box-shadow: 0 15px 40px -20px rgba(40, 44, 63, 0.15);
-  /* border-bottom: 2px solid darkorange; */
+ 
 }
 .logo {
   width: 100px;
@@ -106,3 +108,11 @@ h4 {
   margin-left: 10px;
   margin-right: 3px;
 }
+.price {
+  text-decoration: line-through;
+}
+
+.user-card {
+  padding: 10px;
+  border: 1px solid black;
+} */

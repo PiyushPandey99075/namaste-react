@@ -3,9 +3,9 @@ import NavItems from "./NavItems";
 
 const Header = () => {
   return (
-    <div className="header">
+    <div className="flex justify-between items-center border-b-1 border-[#FFA500]">
       <div className="logo-container">
-        <img className="logo" src={LOGO_URL}></img>
+        <img className="w-30" src={LOGO_URL}></img>
       </div>
       <NavItems />
     </div>

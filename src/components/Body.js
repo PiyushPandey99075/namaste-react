@@ -1,6 +1,8 @@
 import ReastaurantCard from "./ReastaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router";
+import { RES_API } from "../utils/constants";
 
 const Body = () => {
   let [listOfResturants, SetlistOfResturants] = useState([]);
@@ -12,11 +14,8 @@ const Body = () => {
   }, []);
 
   const getData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.8452145&lng=77.6601695&collection=83639&tags=layout_CCS_Biryani&sortBy=&filters=&type=rcv2&offset=0&page_type=null"
-    );
+    const data = await fetch(RES_API);
     const json = await data.json();
-    console.log(json);
     SetlistOfResturants(json?.data?.cards);
   };
 
@@ -24,10 +23,10 @@ const Body = () => {
   return listOfResturants.length === 0 ? (
     <Shimmer />
   ) : (
-    <div className="Body">
-      <div className="Search">
+    <div className="max-w-[85rem] m-auto mt-5">
+      <div className="m-3">
         <button
-          className="Filter-btn"
+          className="Filter-btn bg-amber-200 rounded-sm p-2 decoration-black"
           onClick={() => {
             const filteredList = listOfResturants.filter(
               (res) => res.card.card.info?.avgRating > 4
@@ -40,16 +39,15 @@ const Body = () => {
         </button>
         <input
           type="text"
-          className="search-text"
+          className="search-text border-solid border-black border-1 m-1.5"
           value={searchText}
           onChange={(e) => {
             setSearchText(e.target.value);
           }}
         ></input>
         <button
+          className="bg-amber-200 rounded-sm p-2 decoration-black"
           onClick={() => {
-            // const list = listOfResturants.slice(3);
-            // console.log(list?.card);
             console.log(listOfResturants.slice(3));
             const filList = listOfResturants.slice(3).filter((resto) => {
               return resto?.card?.card?.info?.name
@@ -62,21 +60,25 @@ const Body = () => {
           Search
         </button>
       </div>
-      <div className="res-container">
+      <div className="res-container flex flex-wrap">
         {resfilteredList.length === 0
-          ? listOfResturants
-              .slice(3)
-              .map((Restaurant) => (
-                <ReastaurantCard
-                  key={Restaurant?.card?.card?.info?.id}
-                  resData={Restaurant}
-                />
-              ))
-          : resfilteredList.map((Restaurant) => (
-              <ReastaurantCard
+          ? listOfResturants.slice(3).map((Restaurant) => (
+              <Link
+                className=""
                 key={Restaurant?.card?.card?.info?.id}
-                resData={Restaurant}
-              />
+                to={/restaurant/ + Restaurant?.card?.card?.info?.id}
+              >
+                <ReastaurantCard resData={Restaurant} />
+              </Link>
+            ))
+          : resfilteredList.map((Restaurant) => (
+              <Link
+                className=""
+                key={Restaurant?.card?.card?.info?.id}
+                to={/restaurant/ + Restaurant?.card?.card?.info?.id}
+              >
+                <ReastaurantCard resData={Restaurant} />
+              </Link>
             ))}
       </div>
     </div>
