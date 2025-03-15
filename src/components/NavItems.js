@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router";
+import userName from "../utils/UserContext";
 
 const NavItems = () => {
   const [btnName, SetBtnName] = useState("Login");
+
+  const { loggedIn } = useContext(userName);
+
   return (
     <div className="">
       <ul className="flex">
@@ -20,13 +24,18 @@ const NavItems = () => {
         </li>
         <li className="px-4">Cart</li>
         <button
-          className="log-btn px-5"
+          className="log-btn px-4 cursor-pointer"
           onClick={() => {
             btnName === "Login" ? SetBtnName("Logout") : SetBtnName("Login");
           }}
         >
           {btnName}
         </button>
+        {btnName === "Logout" ? (
+          <li className="font-bold px-1">{loggedIn}</li>
+        ) : (
+          <li className="font-bold"></li>
+        )}
       </ul>
     </div>
   );

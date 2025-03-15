@@ -13,7 +13,6 @@ const useRestaurantMenu = (resId) => {
       MENU_API + resId + "&source=collection&query=Biryani"
     );
     const json = await data.json();
-    console.log(json?.data);
     SetResInfo(json?.data);
   };
 

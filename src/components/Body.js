@@ -1,4 +1,4 @@
-import ReastaurantCard from "./ReastaurantCard";
+import ReastaurantCard, { withPromotedLabel } from "./ReastaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router";
@@ -9,6 +9,9 @@ const Body = () => {
   let [resfilteredList, SetResfilteredList] = useState([]);
   let [searchText, setSearchText] = useState([]);
 
+  // HOC - [Higher Order Components]
+  const ReastaurantCardPromoted = withPromotedLabel(ReastaurantCard);
+
   useEffect(() => {
     getData();
   }, []);
@@ -18,7 +21,6 @@ const Body = () => {
     const json = await data.json();
     SetlistOfResturants(json?.data?.cards);
   };
-
   // Conditional Rendering!
   return listOfResturants.length === 0 ? (
     <Shimmer />
@@ -68,7 +70,11 @@ const Body = () => {
                 key={Restaurant?.card?.card?.info?.id}
                 to={/restaurant/ + Restaurant?.card?.card?.info?.id}
               >
-                <ReastaurantCard resData={Restaurant} />
+                {Restaurant?.card?.card?.info?.promoted ? (
+                  <ReastaurantCardPromoted resData={Restaurant} />
+                ) : (
+                  <ReastaurantCard resData={Restaurant} />
+                )}
               </Link>
             ))
           : resfilteredList.map((Restaurant) => (
@@ -77,7 +83,11 @@ const Body = () => {
                 key={Restaurant?.card?.card?.info?.id}
                 to={/restaurant/ + Restaurant?.card?.card?.info?.id}
               >
-                <ReastaurantCard resData={Restaurant} />
+                {Restaurant?.card?.card?.info?.promoted ? (
+                  <ReastaurantCardPromoted resData={Restaurant} />
+                ) : (
+                  <ReastaurantCard resData={Restaurant} />
+                )}
               </Link>
             ))}
       </div>
